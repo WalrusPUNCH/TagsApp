@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TagsApp
+namespace TagsApp.Command
 {
-    public interface IMemento
+    public interface ICommand
     {
-        void Restore();
+        void Execute();
     }
 }
-

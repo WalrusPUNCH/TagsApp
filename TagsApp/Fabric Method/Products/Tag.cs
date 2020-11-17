@@ -8,6 +8,13 @@
         {
            Name = _name  ;
         }
-    
+
+        private const string emptyTag = "X";
+        public static string Empty { get { return emptyTag; } }
+
+        public Tag()
+        {
+            Name = emptyTag;
+        }
     }
 }

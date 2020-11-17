@@ -32,12 +32,33 @@ namespace TagsApp
         public uint Width { set { width = value; } get { return width; } }
         public Tag[,] Tags { set { tags = value; } get { return tags; } }
 
+        public int LengthInt { get { return Convert.ToInt32(length); } }
+        public int WidthInt { get { return Convert.ToInt32(width); } }
+
         public Field(string _name, uint w, uint l)
         {
             this.name = _name;
             this.width = w;
             this.length = l;
             this.tags = new Tag[w,l];
+        }
+        public Field(uint w, uint l)
+        {
+            this.name = "Standart";
+            this.width = w;
+            this.length = l;
+            this.tags = new Tag[w,l];
+
+            uint count = 1;
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Length; j++)
+                {
+                    this.Tags[i, j] = new Tag(count.ToString());
+                    count++;
+                    // Console.Write(this.Tags[i, j].Name + " ");
+                }
+            }
         }
 
 
@@ -58,7 +79,7 @@ namespace TagsApp
                     throw new InvalidOperationException("same tags");
                 }
 
-                if (Tags[fromTo.fromX, fromTo.fromY].Name != "x" && Tags[fromTo.toX, fromTo.toY].Name != "x")
+                if (Tags[fromTo.fromX, fromTo.fromY].Name != Tag.Empty && Tags[fromTo.toX, fromTo.toY].Name != Tag.Empty)
                 {
                     throw new InvalidOperationException("No empty tag to move");
                 }
@@ -83,17 +104,16 @@ namespace TagsApp
 
             for (int j = 1; j <= Length; j++)
             {
-                Console.Write("=+=+", j);
+                Console.Write("+---", j);
             }
-            Console.Write("=+=+" +
-                "=\n");
+            Console.Write("+----\n");
 
             for (int i = 0; i < Width; i++)
             {
                 Console.Write("|{0, 3}|", Utils.indexToChar(i));
                 for (int j = 0; j < Length; j++)
                 {
-                    if(this.Tags[i, j].Name == "x")
+                    if(this.Tags[i, j].Name == Tag.Empty)
                     {
                         //Console.Write(" ");
                         Console.BackgroundColor = ConsoleColor.Red;
@@ -110,60 +130,48 @@ namespace TagsApp
             }
         }
 
-
-    }
-
-    public static class Utils
-    {
-        public static string indexToChar(int n)
+        public static bool operator ==(Field f1, Field f2)
         {
-            string res = "";
-            int next = 1, val;
-            while (next != 0)
+            if (f1.Length != f2.Length || f1.Width != f2.Width)
             {
-                next = n / 10;
-                val = n - next * 10;
-                switch (val) { 
-                    case 0:
-                        res += 'A';
-                        break;
-                    case 1:
-                        res += 'B';
-                        break;
-                    case 2:
-                        res += 'C';
-                        break;
-                    case 3:
-                        res += 'D';
-                        break;
-                    case 4:
-                        res += 'E';
-                        break;
-                    case 5:
-                        res += 'F';
-                        break;
-                    case 6:
-                        res += 'G';
-                        break;
-                    case 7:
-                        res += 'H';
-                        break;
-                    case 8:
-                        res += 'I';
-                        break;
-                    case 9:
-                        res += 'J';
-                        break;
-                }
-                n = next;
+                return false;
             }
-            return res;
+            
+            for (int i = 0; i < f1.Width; i++)
+            {
+                for (int j = 0; j < f1.Length; j++)
+                {
+                    if (f1.Tags[i, j] != f2.Tags[i, j])
+                        return false;
+                }
+            }
+            return true;
         }
+        public static bool operator !=(Field f1, Field f2)
+        {
+            if (f1.Length != f2.Length || f1.Width != f2.Width)
+            {
+                return true;
+            }
+            
+            for (int i = 0; i < f1.Width; i++)
+            {
+                for (int j = 0; j < f1.Length; j++)
+                {
+                    if (f1.Tags[i, j] == f2.Tags[i, j])
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        public IMemento CreateMemento()
+        {
+            return new FieldMemento(this, tags, width, length );
+        }
+       
     }
 
 
-    //public IMemento CreateMapMemento()
-    //{
-    //    return null;
-    //}
+   
 }

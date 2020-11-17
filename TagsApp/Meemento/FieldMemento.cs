@@ -4,17 +4,39 @@ using System.Text;
 
 namespace TagsApp
 {
-    public class FieldMemento
+    public class FieldMemento:IMemento
     {
-        private string name;
-        private uint length;
-        private uint width;
-        private Tag[][] tags;
-        private Field field;
+        private uint Width;
+        private uint Length;
 
-        public FieldMemento()
+        private Tag[,] tags;
+        Field field;
+
+        public FieldMemento(Field f, Tag[,] _tags, uint Width, uint Length)
         {
+            field = f;
+            tags = new Tag[Width, Length];
+            for(int i = 0; i < Length; i++)
+            {
+                for(int j = 0; i< Width; j++)
+                {
+                    tags[i,j] = _tags[i,j];
+                }
+            }
+        }
 
+        public void Restore()
+        {
+            field.Length = Length;
+            field.Width = Width;
+            
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = 0; i < Width; j++)
+                {
+                    field.Tags[i, j] = tags[i, j];
+                }
+            }
         }
     }
 }

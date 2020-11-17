@@ -6,7 +6,7 @@ namespace TagsApp.Fabric_Method
 {
     public class BckwrdField: Field
     {
-        public BckwrdField(string _name, uint w, uint l) :base(_name, w, l)
+        public BckwrdField(uint w, uint l) :base("bckwrd", w, l)
         {
             uint count = Width * Length;
             for(int i=0; i< Width; i++)
@@ -18,7 +18,6 @@ namespace TagsApp.Fabric_Method
                    // Console.Write(this.Tags[i, j].Name + " ");
                 }
             }
-            Tags[0, 0] = new Tag("x");
         }
     }
 }
