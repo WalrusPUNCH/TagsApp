@@ -56,19 +56,18 @@ namespace TagsApp
                 {
                     this.Tags[i, j] = new Tag(count.ToString());
                     count++;
-                    // Console.Write(this.Tags[i, j].Name + " ");
                 }
             }
         }
-
-
         /*
          * throws exeptions on invalid moves or out of order
          * on sucssess checks moves swaps tags
          */
         public void MoveTag(FromToCoords fromTo)
         {
-            if (Ceiling(Sqrt(Convert.ToDouble((fromTo.fromX - fromTo.toX) ^ 2 + (fromTo.fromY - fromTo.toY) ^ 2))) > 2)
+            if (Ceiling(Sqrt(Convert.ToDouble(
+                (fromTo.fromX - fromTo.toX) ^ 2 + 
+                (fromTo.fromY - fromTo.toY) ^ 2))) > 2)
             {
                 throw new InvalidOperationException("too far. choose a closer tag");
             }
@@ -90,44 +89,6 @@ namespace TagsApp
             }
 
                        
-        }
-        public void ShowTags()
-        {
-            Console.Write("|   |");
-
-            for (int j = 1; j <= Length; j++)
-            {
-                Console.Write("{0, 3}|", j);
-            }
-            Console.Write("\n");
-
-
-            for (int j = 1; j <= Length; j++)
-            {
-                Console.Write("+---", j);
-            }
-            Console.Write("+----\n");
-
-            for (int i = 0; i < Width; i++)
-            {
-                Console.Write("|{0, 3}|", Utils.indexToChar(i));
-                for (int j = 0; j < Length; j++)
-                {
-                    if(this.Tags[i, j].Name == Tag.Empty)
-                    {
-                        //Console.Write(" ");
-                        Console.BackgroundColor = ConsoleColor.Red;
-                        Console.Write("{0, 3}", this.Tags[i, j].Name);
-                       // Console.Write(" ");
-                        Console.ResetColor();
-                        Console.Write("|");
-                        continue;
-                    }
-                    Console.Write("{0, 3}|", this.Tags[i, j].Name);
-
-                }
-                Console.Write("\n");
-            }
         }
 
         public static bool operator ==(Field f1, Field f2)

@@ -5,7 +5,7 @@ using TagsApp.Meemento;
 
 namespace TagsApp.Command
 {
-    public class UndoCommand
+    public class UndoCommand : ICommand
     {
         private HistoryCareTaker history;
 

@@ -17,6 +17,12 @@ namespace TagsApp
             Name = _name;
         }
         public abstract Field Generate(uint w, uint l);
+        public static Field GenerateWinField(uint w, uint l)
+        {
+            var field = new Field(w, l);
+            field.Tags[w-1, l-1] = new Tag();
+            return field;
+        }
         //{
         //    var field = new Field(w, l);
         //    field.Name = "WinField";

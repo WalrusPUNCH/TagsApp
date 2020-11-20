@@ -5,7 +5,7 @@ using TagsApp.Meemento;
 
 namespace TagsApp.Command
 {
-    public class MoveTagCommand
+    public class MoveTagCommand : ICommand
     {
         private Field field;
         private HistoryCareTaker history;
