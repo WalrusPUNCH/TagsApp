@@ -16,8 +16,8 @@ namespace TagsApp
             //Console.WriteLine();
             //Console.ReadKey();
 
-            UserInputController user = new UserInputController();
-            user.ParseMove();
+            Core.Init();
+            Core.MainLoop();
 
 
         }

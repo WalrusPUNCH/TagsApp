@@ -6,9 +6,6 @@ namespace TagsApp.Fabric_Method
 {
     public class RndFieldCreator:FieldCreator
     {
-        //1 generate random map 
-        //2 find the biggest digit(coords)
-        //3 replace it with the Tag.Empty
         private uint NumOfSwaps;
         public RndFieldCreator(uint numOfSwaps) : base("Random creator")
         {
@@ -16,14 +13,14 @@ namespace TagsApp.Fabric_Method
         }
         public override Field Generate(uint w, uint l)
         {
-            var bfield = new RndField(w, l, NumOfSwaps);
+            var rfield = new RndField(w, l, NumOfSwaps);
             int currentMaxVal = 0;
             int maxValX = 0, maxValY = 0;
-            for (int i = 0; i < bfield.Width; i++)
+            for (int i = 0; i < rfield.Width; i++)
             {
-                for (int j = 0; j < bfield.Length; j++)
+                for (int j = 0; j < rfield.Length; j++)
                 {
-                    int value = Convert.ToInt32(bfield.Tags[i, j].Name);
+                    int value = Convert.ToInt32(rfield.Tags[i, j].Name);
                     if (value>currentMaxVal)
                     {
                         maxValX = i;
@@ -32,9 +29,9 @@ namespace TagsApp.Fabric_Method
                     }
                 }
             }
-            bfield.Tags[maxValX, maxValY] = new Tag();
+            rfield.Tags[maxValX, maxValY] = new Tag();
 
-            return bfield;
+            return rfield;
         }
     }
 }

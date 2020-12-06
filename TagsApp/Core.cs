@@ -17,8 +17,8 @@ namespace TagsApp
     public static class Core
     {
         private static FieldCreator fieldCreator;
-        private static ICommand moveTagCommand;
         private static ICommand undoCommand;
+        public static ICommand UndoCommand { get { return undoCommand; } }
         private static UserInputController user;
         private static HistoryCareTaker history;
         private static Field field;
@@ -26,41 +26,83 @@ namespace TagsApp
         private static FieldType FieldType;
         //private Core core;
 
-       // private Core()
+        // private Core()
 
         public static void Init()
         {
-            user = new UserInputController();
+            uint[] size = null;
+            while (true)
+            {
+                PrintOut.PrintMenu();
+             
+                try
+                {
+                    string initAns = Console.ReadLine();
 
-            FieldType = (FieldType)(user.ChooseFieldType()-1);
+                    user = new UserInputController();
 
-            uint[] size = user.ChooseFieldSize();
+                    FieldType = (FieldType)(user.ChooseFieldType(initAns));
+                    break;
+                }
+                catch (InvalidInputException e)
+                {
+                    CatchActions(e);
+                }
+            }
 
-            Switch(FieldType, size[0], size[1]);
+            while (size == null)
+            {
+                try
+                {
+                    PrintOut.CustomizeSizeW();
+                    string w = Console.ReadLine();
+                    PrintOut.CustomizeSizeL();
+                    string l = Console.ReadLine();
+
+                    size = user.ChooseFieldSize(w, l);
+                }
+                catch (Exception e)
+                {
+                    CatchActions(e);
+                }
+            }
             
+            Switch(FieldType, size[0], size[1]);
+
             history = new HistoryCareTaker();
 
-            undoCommand = new UndoCommand(history);            
+            undoCommand = new UndoCommand(history);
+
+            Console.Clear();
         }
 
         private static void Switch(FieldType ft, uint width, uint length)
         {
+            winField = FieldCreator.GenerateWinField(width, length);
+
             switch (ft)
             {
                 case FieldType.randomField:
-                    uint numOfSwaps = user.GetNumOfSwaps();
-                    fieldCreator = new RndFieldCreator(numOfSwaps);
+                    PrintOut.GetNumOfSwapsText();
+                    string numOfSwaps = Console.ReadLine();
+
+                    fieldCreator = new RndFieldCreator(user.GetNumOfSwaps(numOfSwaps));
                     field = fieldCreator.Generate(width, length);
                     break;
+
                 case FieldType.backwardsField:
                     fieldCreator = new BckwrdFieldCreator();
                     field = fieldCreator.Generate(width, length);
                     break;
+
                 case FieldType.hardField:
-                    uint chanceOfRandomCancel = user.GetChanceOfRndCancel();
-                    fieldCreator = new HardFieldCreator(chanceOfRandomCancel);
+                    PrintOut.GetChanceOfRndcancelText();
+
+                    string chanceOfRandomCancel = Console.ReadLine();
+                    fieldCreator = new HardFieldCreator(user.GetChanceOfRndCancel(chanceOfRandomCancel));
                     field = fieldCreator.Generate(width, length);
                     break;
+
                 default:
                     field = FieldCreator.GenerateWinField(width, length);
                     break;
@@ -70,9 +112,52 @@ namespace TagsApp
         {
             while (field != winField)
             {
-                
+                try
+                {
+                    PrintOut.ShowTags(field);
+                    PrintOut.ShowRules();
+                    Console.WriteLine();
+
+                    string ans = Console.ReadLine();
+                    if (user.CancelMove(ans.ToLower()))
+                    {
+                        undoCommand.Execute();
+                        Console.Clear();
+                        continue;
+                    }
+                    if (user.GiveUp(ans.ToLower()))
+                    {
+                        PrintOut.Restart();
+                        break;
+                    }
+
+                    ICommand moveTagCommand = new MoveTagCommand(user.ParseMove(ans), field, history);
+                    moveTagCommand.Execute();
+                    Console.Clear();
+                }
+                catch (InvalidOperationException e)
+                {
+                    CatchActions(e);
+                    undoCommand.Execute();//if move failed, but memento already created
+                }
+                catch (Exception e)
+                {
+                    CatchActions(e);
+                }
+            }
+
+            if(field == winField)
+            {
+                Console.WriteLine("pobeda");
+                PrintOut.Win();
             }
         }
-        
+        private static void CatchActions(Exception e)
+        {
+            Console.Clear();
+            Console.WriteLine(e.Message);
+            Console.ReadKey();
+            Console.Clear();
+        }
     }
 }

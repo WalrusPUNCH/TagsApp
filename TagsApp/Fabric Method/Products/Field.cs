@@ -63,11 +63,12 @@ namespace TagsApp
          * throws exeptions on invalid moves or out of order
          * on sucssess checks moves swaps tags
          */
-        public void MoveTag(FromToCoords fromTo)
+        public virtual void MoveTag(FromToCoords fromTo)
         {
-            if (Ceiling(Sqrt(Convert.ToDouble(
-                (fromTo.fromX - fromTo.toX) ^ 2 + 
-                (fromTo.fromY - fromTo.toY) ^ 2))) > 2)
+            double summ = Pow((Convert.ToInt32(fromTo.fromX) - Convert.ToInt32(fromTo.toX)), 2) +
+                          Pow((Convert.ToInt32(fromTo.fromY) - Convert.ToInt32(fromTo.toY)), 2);
+            double len = Sqrt(summ);
+            if (Ceiling(len) >= 2)
             {
                 throw new InvalidOperationException("too far. choose a closer tag");
             }
@@ -119,11 +120,11 @@ namespace TagsApp
             {
                 for (int j = 0; j < f1.Length; j++)
                 {
-                    if (f1.Tags[i, j] == f2.Tags[i, j])
-                        return false;
+                    if (f1.Tags[i, j].Name != f2.Tags[i, j].Name)
+                        return true;
                 }
             }
-            return true;
+            return false;
         }
 
         public IMemento CreateMemento()

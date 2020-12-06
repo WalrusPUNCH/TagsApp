@@ -23,12 +23,5 @@ namespace TagsApp
             field.Tags[w-1, l-1] = new Tag();
             return field;
         }
-        //{
-        //    var field = new Field(w, l);
-        //    field.Name = "WinField";
-        //    field.Tags[w-1, l-1] = new Tag();
-        //    return field;
-        //}
-
     }
 }
