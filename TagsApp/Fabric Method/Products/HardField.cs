@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TagsApp.Command;
 
 namespace TagsApp.Fabric_Method
 {
@@ -26,8 +27,9 @@ namespace TagsApp.Fabric_Method
                 base.MoveTag(fromTo);
             }
             else
-            {         
-                Core.UndoCommand.Execute();
+            {
+                Core core = Core.GetInstance();
+                core.UndoCommand.Execute();
  
                 MakeRandomMove();
             }

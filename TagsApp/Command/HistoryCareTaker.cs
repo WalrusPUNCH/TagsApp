@@ -8,7 +8,7 @@ namespace TagsApp.Meemento
     public class HistoryCareTaker
     {
         private Stack<IMemento> history;
-      //  private Stack<ICommand> commandHistory;
+      //  private Stack<IMemento> commandHistory;
         public Stack<IMemento> History { get => history; set => history = value; }
 
         public HistoryCareTaker()
@@ -18,7 +18,7 @@ namespace TagsApp.Meemento
         }
 
 
-        public void Save(IMemento memento/*, ICommand command*/)
+        public void Save(IMemento memento/*, IMemento command*/)
         {
             history.Push(memento);
            // commandHistory.Push(command);

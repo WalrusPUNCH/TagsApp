@@ -15,9 +15,9 @@ namespace TagsApp
 
             //Console.WriteLine();
             //Console.ReadKey();
-
-            Core.Init();
-            Core.MainLoop();
+            Core core = Core.GetInstance();
+            core.Init();
+            core.MainLoop();
 
 
         }
