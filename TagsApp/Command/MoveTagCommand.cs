@@ -20,7 +20,7 @@ namespace TagsApp.Command
 
         public void Execute()
         {           
-            history.Save(field.CreateMemento(), this);
+            history.Save(field.CreateMemento());
             field.MoveTag(fromTo);
         }
 

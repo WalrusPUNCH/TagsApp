@@ -8,18 +8,20 @@ namespace TagsApp.Meemento
     public class HistoryCareTaker
     {
         private Stack<IMemento> history;
-        private Stack<ICommand> commandHistory;
-        
+      //  private Stack<ICommand> commandHistory;
+        public Stack<IMemento> History { get => history; set => history = value; }
+
         public HistoryCareTaker()
         {
             history = new Stack<IMemento>();
-            commandHistory = new Stack<ICommand>();
+            //commandHistory = new Stack<ICommand>();
         }
 
-        public void Save(IMemento memento, ICommand command)
+
+        public void Save(IMemento memento/*, ICommand command*/)
         {
             history.Push(memento);
-            commandHistory.Push(command);
+           // commandHistory.Push(command);
         }
         
         public void Undo()
@@ -29,8 +31,7 @@ namespace TagsApp.Meemento
                 throw new InvalidOperationException("no move to cancel");
             }
             history.Pop().Restore();
-            commandHistory.Pop();
-
+           // commandHistory.Pop();
         }
     }
 }

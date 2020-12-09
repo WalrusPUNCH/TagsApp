@@ -1,4 +1,6 @@
-﻿namespace TagsApp
+﻿using System;
+
+namespace TagsApp
 {
     public class Tag
     {

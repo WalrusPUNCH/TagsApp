@@ -148,7 +148,6 @@ namespace TagsApp
 
             if(field == winField)
             {
-                Console.WriteLine("pobeda");
                 PrintOut.Win();
             }
         }
