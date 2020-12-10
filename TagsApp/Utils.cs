@@ -12,7 +12,8 @@ namespace TagsApp
             {
                 next = n / 10;
                 val = n - next * 10;
-                switch (val) { 
+                switch (val)
+                {
                     case 0:
                         res = 'A' + res;
                         break;
@@ -54,40 +55,40 @@ namespace TagsApp
             uint res = 0;
             int next = 1, val;
             switch (h)
-                {
-                    case 'A':
-                        res = 0;
-                        break;
-                    case 'B':
-                        res = 1;
-                        break;
-                    case 'C':
-                        res = 2;
-                        break;
-                    case 'D':
-                        res = 3;
-                        break;
-                    case 'E':
-                        res = 4;
-                        break;
-                    case 'F':
-                        res = 5;
-                        break;
-                    case 'G':
-                        res = 6;
-                        break;
-                    case 'H':
-                        res = 7;
-                        break;
-                    case 'I':
-                        res = 8;
-                        break;
-                    case 'J':
-                        res = 9;
-                        break;
-                    default: 
-                        res = 0;
-                        break;
+            {
+                case 'A':
+                    res = 0;
+                    break;
+                case 'B':
+                    res = 1;
+                    break;
+                case 'C':
+                    res = 2;
+                    break;
+                case 'D':
+                    res = 3;
+                    break;
+                case 'E':
+                    res = 4;
+                    break;
+                case 'F':
+                    res = 5;
+                    break;
+                case 'G':
+                    res = 6;
+                    break;
+                case 'H':
+                    res = 7;
+                    break;
+                case 'I':
+                    res = 8;
+                    break;
+                case 'J':
+                    res = 9;
+                    break;
+                default:
+                    res = 0;
+                    break;
             }
            
             return res;

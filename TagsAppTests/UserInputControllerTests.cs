@@ -27,6 +27,8 @@ namespace TagsAppTests
             Assert.AreEqual(expected, actual);
         }
 
+
+
         [TestCase("4")]
         [TestCase("-1")]
         public void ChooseFieldType_inputMoreorLessThanExpected_ThrowException(string value)
@@ -70,23 +72,13 @@ namespace TagsAppTests
         [TestCase("a1 a2")]
         public void ParseMove_inputString_returnFromToCoords(string value)
         {
+            //arrange
             FromToCoords ft0 = new FromToCoords(0, 0, 0, 1);
+            //act
             FromToCoords ft1 = u.ParseMove(value);
-
+            //assert
             Assert.AreEqual(ft0, ft1);
         }  
         
-        [TestCase("a a2")]
-        public void ParseMove_inputString_ThrowException(string value)
-        {
-            FromToCoords ft0 = new FromToCoords(0, 0, 0, 1);
-            FromToCoords ft1 = u.ParseMove(value);
-
-            Assert.AreEqual(ft0, ft1);
-        }
-
-
-
-
     }
 }

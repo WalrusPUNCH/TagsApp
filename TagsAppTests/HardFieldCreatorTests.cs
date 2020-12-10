@@ -1,5 +1,4 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +8,7 @@ using TagsApp.Fabric_Method;
 namespace TagsAppTests
 {
     [TestFixture]
-    class BckwrdsFieldCreatorTests
+    class HardFieldCreatorTests
     {
         FieldCreator c;
         [Test]
@@ -18,11 +17,12 @@ namespace TagsAppTests
             //arrange
             var w = 4;
             var l = 5;
-            var bckwrdFieldCreator = new BckwrdFieldCreator();
+            var chanceofrndcancel = 4;
+            var bckwrdFieldCreator = new HardFieldCreator((uint)chanceofrndcancel);
             //act
             Field f = bckwrdFieldCreator.Generate((uint)w, (uint)l);
             //assert
-            Assert.IsInstanceOf(typeof(BckwrdField), f);
+            Assert.IsInstanceOf(typeof(HardField), f);
         }
     }
 }

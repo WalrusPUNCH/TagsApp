@@ -40,7 +40,7 @@ namespace TagsAppTests
         }
 
         [Test]
-        public void Undo_1elementInStack_ReturnMemento()
+        public void Undo_1elementInStack_StockIsEmpty()
         {
             //arrange
             var mementomock = new Mock<IMemento>();

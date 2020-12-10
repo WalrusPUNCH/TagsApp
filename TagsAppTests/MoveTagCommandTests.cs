@@ -12,34 +12,49 @@ namespace TagsAppTests
     [TestFixture]
     class MoveTagCommandTests
     {
-        Field f;
         FromToCoords coords;
-        HistoryCareTaker history;
         Mock<ICommand> mockMoveCommand;
+        Mock<HistoryCareTaker> h;
+
+        Field f1, f2;
+        [SetUp]
+        public void SetUp()
+        {
+            f1 = new Field(4, 4);
+            f2 = new Field(4, 4);
+            coords = new FromToCoords(0, 0, 0, 1);
+        }
+
 
         [Test]
         public void Execute_MoveTagResult()
         {
-            //arrange
-            coords = new FromToCoords(0, 0, 1, 0);
-
-            f = new Field(4, 4);
-            f.Tags[0, 0].Name = Tag.Empty;
-
-            history = new HistoryCareTaker();
-            
             mockMoveCommand = new Mock<ICommand>();
             mockMoveCommand.Setup(move => move.Execute()).Verifiable();
             ICommand command = mockMoveCommand.Object;
-
             //act
-            MoveTagCommand moveCommand = new MoveTagCommand(coords, f, history);
-            moveCommand.Execute();
-
+            command.Execute();
             //assert
+            mockMoveCommand.Verify(move => move.Execute());        
+        }
 
-            mockMoveCommand.Verify(move => move.Execute());
-        
+        [Test]
+        public void MoveTag_SaveMoveAndRestore_InstancesShouldBeSame()
+        {
+            //arrange
+            f1.Tags[0, 0].Name = Tag.Empty;
+
+            f2.Tags[0, 1].Name = Tag.Empty;
+            f2.Tags[0, 0].Name = "2";
+
+
+            f1.MoveTag(coords);
+            var memento = f1.CreateMemento();
+            //act
+            h = new Mock<HistoryCareTaker>();
+            h.Object.Save(memento);
+            //assert
+            Assert.AreEqual(f2.Tags[0, 0].Name, f1.Tags[0,0].Name);            
         }
     }
 }
