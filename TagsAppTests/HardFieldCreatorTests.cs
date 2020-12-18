@@ -10,7 +10,6 @@ namespace TagsAppTests
     [TestFixture]
     class HardFieldCreatorTests
     {
-        FieldCreator c;
         [Test]
         public void Generate_WandLInserted_ReturnBckwrdsField()
         {

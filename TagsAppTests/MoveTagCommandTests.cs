@@ -16,12 +16,12 @@ namespace TagsAppTests
         Mock<ICommand> mockMoveCommand;
         Mock<HistoryCareTaker> h;
 
-        Field f1, f2;
+        Field actual, expected;
         [SetUp]
         public void SetUp()
         {
-            f1 = new Field(4, 4);
-            f2 = new Field(4, 4);
+            actual = new Field(4, 4);
+            expected = new Field(4, 4);
             coords = new FromToCoords(0, 0, 0, 1);
         }
 
@@ -32,8 +32,10 @@ namespace TagsAppTests
             mockMoveCommand = new Mock<ICommand>();
             mockMoveCommand.Setup(move => move.Execute()).Verifiable();
             ICommand command = mockMoveCommand.Object;
+
             //act
             command.Execute();
+
             //assert
             mockMoveCommand.Verify(move => move.Execute());        
         }
@@ -42,19 +44,19 @@ namespace TagsAppTests
         public void MoveTag_SaveMoveAndRestore_InstancesShouldBeSame()
         {
             //arrange
-            f1.Tags[0, 0].Name = Tag.Empty;
+            actual.Tags[0, 0].Name = Tag.Empty;
+            expected.Tags[0, 1].Name = Tag.Empty;
+            expected.Tags[0, 0].Name = "2";
 
-            f2.Tags[0, 1].Name = Tag.Empty;
-            f2.Tags[0, 0].Name = "2";
+            actual.MoveTag(coords);
+            var memento = actual.CreateMemento();
 
-
-            f1.MoveTag(coords);
-            var memento = f1.CreateMemento();
             //act
             h = new Mock<HistoryCareTaker>();
             h.Object.Save(memento);
+
             //assert
-            Assert.AreEqual(f2.Tags[0, 0].Name, f1.Tags[0,0].Name);            
+            Assert.AreEqual(expected.Tags[0, 0].Name, actual.Tags[0,0].Name);            
         }
     }
 }

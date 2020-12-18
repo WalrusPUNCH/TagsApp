@@ -22,6 +22,7 @@ namespace TagsAppTests
             //act
             var rndfCreator = new RndFieldCreator((uint)randomswaps);
             var result = rndfCreator.Generate((uint)w, (uint)l);
+
             //aassert
             Assert.IsInstanceOf(typeof(RndField), result) ;
         }

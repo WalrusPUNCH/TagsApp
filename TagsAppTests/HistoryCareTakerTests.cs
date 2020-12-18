@@ -18,6 +18,7 @@ namespace TagsAppTests
         public void SetUp()
         {
             history = new HistoryCareTaker();
+            mementomock = new Mock<IMemento>();
         }
 
         [Test]
@@ -31,7 +32,6 @@ namespace TagsAppTests
         public void Save_1elementInStack_Saved()
         {
             //arrange
-            mementomock = new Mock<IMemento>();
             IMemento memento = mementomock.Object;
             //act
             history.Save(memento);
@@ -43,7 +43,6 @@ namespace TagsAppTests
         public void Undo_1elementInStack_StockIsEmpty()
         {
             //arrange
-            var mementomock = new Mock<IMemento>();
             history.Save(mementomock.Object);
             //act
             history.Undo();

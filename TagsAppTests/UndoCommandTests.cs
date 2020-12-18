@@ -26,7 +26,5 @@ namespace TagsAppTests
             //assert
             mockUndoCommand.Verify(move => move.Execute());
         }
-
-
     }
 }

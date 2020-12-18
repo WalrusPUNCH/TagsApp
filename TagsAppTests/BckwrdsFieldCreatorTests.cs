@@ -11,7 +11,6 @@ namespace TagsAppTests
     [TestFixture]
     class BckwrdsFieldCreatorTests
     {
-        FieldCreator c;
         [Test]
         public void Generate_WandLInserted_ReturnBckwrdsField()
         {

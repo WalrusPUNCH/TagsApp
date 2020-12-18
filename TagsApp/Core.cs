@@ -28,6 +28,12 @@ namespace TagsApp
 
         // private Core()
 
+        //private FieldType returnFieldType(string ans)
+        //{
+        //    user = new UserInputController();
+
+        //    return (FieldType)(user.ChooseFieldType(ans));
+        //}
         public static void Init()
         {
             uint[] size = null;
