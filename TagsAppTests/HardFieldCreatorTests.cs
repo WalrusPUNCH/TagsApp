@@ -1,8 +1,10 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using TagsApp;
+using TagsApp.Command;
 using TagsApp.Fabric_Method;
 
 namespace TagsAppTests
@@ -10,6 +12,7 @@ namespace TagsAppTests
     [TestFixture]
     class HardFieldCreatorTests
     {
+        Mock<ICommand> undocommand;        
         [Test]
         public void Generate_WandLInserted_ReturnBckwrdsField()
         {
@@ -17,7 +20,9 @@ namespace TagsAppTests
             var w = 4;
             var l = 5;
             var chanceofrndcancel = 4;
-            var bckwrdFieldCreator = new HardFieldCreator((uint)chanceofrndcancel);
+            undocommand = new Mock<ICommand>();
+
+            var bckwrdFieldCreator = new HardFieldCreator((uint)chanceofrndcancel, undocommand.Object);
             //act
             Field f = bckwrdFieldCreator.Generate((uint)w, (uint)l);
             //assert
