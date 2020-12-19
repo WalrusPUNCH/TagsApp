@@ -20,6 +20,7 @@ namespace TagsApp
             }
             return Convert.ToUInt32(ft);
         }
+
         public uint[] ChooseFieldSize(string width, string length)
         {
             if (!Utils.IsDigit(width))
