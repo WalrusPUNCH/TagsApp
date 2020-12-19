@@ -10,31 +10,31 @@ namespace TagsAppTests
     [TestFixture]
     class FieldTests
     {
-        Field expected;
+        Field actual;
         FromToCoords fromto;
 
         [SetUp]
         public void SetUp()
         {
-            expected = new Field(4, 4);
-            expected.Tags[0, 0].Name = Tag.Empty;
+             actual = new Field(4, 4);
+            actual.Tags[0, 0].Name = Tag.Empty;
         }
 
         [Test]
         public void MoveTag_AcceptFromToCoords_ReturnExchangedTags()
         {
             //arange
-            Field actual = new Field(4,4);
-            actual.Tags[1, 0].Name = Tag.Empty;
-            actual.Tags[0, 0].Name = "5";
+            Field expected = new Field(4,4);
+            expected.Tags[1, 0].Name = Tag.Empty;
+            expected.Tags[0, 0].Name = "5";
 
             fromto = new FromToCoords(0, 0, 1, 0);
 
             //act 
-            expected.MoveTag(fromto);
+            actual.MoveTag(fromto);
 
             //assert
-            Assert.AreEqual(actual.Tags[0, 0].Name, expected.Tags[0,0].Name);
+            Assert.AreEqual(expected.Tags[0,0].Name, actual.Tags[0, 0].Name);
         }
 
         [TestCase(7, 6, 0, 1)]//no empty tag
@@ -46,7 +46,7 @@ namespace TagsAppTests
             fromto = new FromToCoords((uint)fx, (uint)fy, (uint)tx, (uint)ty);
 
             //assert
-            Assert.Throws<InvalidOperationException>(() => expected.MoveTag(fromto));
+            Assert.Throws<InvalidOperationException>(() => actual.MoveTag(fromto));
         }
     }
 }

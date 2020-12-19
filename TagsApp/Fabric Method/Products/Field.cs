@@ -87,9 +87,25 @@ namespace TagsApp
                 var temp = Tags[fromTo.fromX, fromTo.fromY];
                 Tags[fromTo.fromX, fromTo.fromY] = Tags[fromTo.toX, fromTo.toY];
                 Tags[fromTo.toX, fromTo.toY] = temp;
-            }
+            }                       
+        }
 
-                       
+        public void FindEmptyTag()
+        {
+            uint x = 0;
+            uint y = 0;
+
+            for (uint i = 0; i < Width; i++)
+            {
+                for (uint j = 0; j < Length; j++)
+                {
+                    if (Tags[i, j].Name == Tag.Empty)
+                    {
+                        x = i;
+                        y = j;
+                    }
+                }
+            }
         }
 
         public static bool operator ==(Field f1, Field f2)
@@ -130,10 +146,6 @@ namespace TagsApp
         public IMemento CreateMemento()
         {
             return new FieldMemento(this, tags, width, length );
-        }
-       
-    }
-
-
-   
+        }       
+    }   
 }

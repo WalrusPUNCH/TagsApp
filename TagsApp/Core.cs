@@ -74,11 +74,8 @@ namespace TagsApp
             }
             
             Switch(FieldType, size[0], size[1]);
-
             history = new HistoryCareTaker();
-
             undoCommand = new UndoCommand(history);
-
             Console.Clear();
         }
 
@@ -103,7 +100,6 @@ namespace TagsApp
 
                 case FieldType.hardField:
                     PrintOut.GetChanceOfRndcancelText();
-
                     string chanceOfRandomCancel = Console.ReadLine();
                     fieldCreator = new HardFieldCreator(user.GetChanceOfRndCancel(chanceOfRandomCancel));
                     field = fieldCreator.Generate(width, length);
