@@ -14,47 +14,40 @@ namespace TagsApp
         hardField
     }
 
-    public  class Core
+    public static class Core
     {
-        private FieldCreator fieldCreator;
-        private ICommand undoCommand;
-        private UserInputController user;
-        private HistoryCareTaker history;
-        private Field winField;
-        private FieldType FieldType;
-        private static Core instance;
+        private static FieldCreator fieldCreator;
+        private static ICommand undoCommand;
+        public static ICommand UndoCommand { get { return undoCommand; } }
+        private static UserInputController user;
+        private static HistoryCareTaker history;
+        private static Field field;
+        private static Field winField;
+        private static FieldType FieldType;
+        //private Core core;
 
-        private Core()
-        {
-            history = new HistoryCareTaker();
-            undoCommand = new UndoCommand(history);
-            user = new UserInputController();
-        }
+        // private Core()
 
-        public static Core GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new Core();
-            }
-            return instance;
-        }
+        //private FieldType returnFieldType(string ans)
+        //{
+        //    user = new UserInputController();
 
-        private FieldType returnFieldType(string ans)
-        {
-            return (FieldType)user.ChooseFieldType(ans);
-        }
-
-        public Field Init()
+        //    return (FieldType)(user.ChooseFieldType(ans));
+        //}
+        public static void Init()
         {
             uint[] size = null;
             while (true)
             {
-                PrintOut.PrintMenu();             
+                PrintOut.PrintMenu();
+             
                 try
                 {
                     string initAns = Console.ReadLine();
-                    returnFieldType(initAns);
+
+                    user = new UserInputController();
+
+                    FieldType = (FieldType)(user.ChooseFieldType(initAns));
                     break;
                 }
                 catch (InvalidInputException e)
@@ -79,13 +72,20 @@ namespace TagsApp
                     CatchActions(e);
                 }
             }
-            winField = FieldCreator.GenerateWinField(size[0], size[1]);
+            
+            Switch(FieldType, size[0], size[1]);
 
-            return Switch(FieldType, size[0], size[1]);
+            history = new HistoryCareTaker();
+
+            undoCommand = new UndoCommand(history);
+
+            Console.Clear();
         }
 
-        private Field Switch(FieldType ft, uint width, uint length)
+        private static void Switch(FieldType ft, uint width, uint length)
         {
+            winField = FieldCreator.GenerateWinField(width, length);
+
             switch (ft)
             {
                 case FieldType.randomField:
@@ -93,36 +93,33 @@ namespace TagsApp
                     string numOfSwaps = Console.ReadLine();
 
                     fieldCreator = new RndFieldCreator(user.GetNumOfSwaps(numOfSwaps));
-                    return fieldCreator.Generate(width, length);
+                    field = fieldCreator.Generate(width, length);
                     break;
 
                 case FieldType.backwardsField:
                     fieldCreator = new BckwrdFieldCreator();
-                    return fieldCreator.Generate(width, length);
+                    field = fieldCreator.Generate(width, length);
                     break;
 
                 case FieldType.hardField:
                     PrintOut.GetChanceOfRndcancelText();
 
                     string chanceOfRandomCancel = Console.ReadLine();
-                    fieldCreator = new HardFieldCreator(
-                        user.GetChanceOfRndCancel(chanceOfRandomCancel), undoCommand);
-                    return fieldCreator.Generate(width, length);
+                    fieldCreator = new HardFieldCreator(user.GetChanceOfRndCancel(chanceOfRandomCancel));
+                    field = fieldCreator.Generate(width, length);
                     break;
 
                 default:
-                    return FieldCreator.GenerateWinField(width, length);
+                    field = FieldCreator.GenerateWinField(width, length);
                     break;
             }
-       
         }
-        public void MainLoop(Field field)
+        public static void MainLoop()
         {
             while (field != winField)
             {
                 try
                 {
-                    Console.Clear();
                     PrintOut.ShowTags(field);
                     PrintOut.ShowRules();
                     Console.WriteLine();

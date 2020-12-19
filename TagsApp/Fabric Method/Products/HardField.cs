@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TagsApp.Command;
 
 namespace TagsApp.Fabric_Method
 {
     public class HardField : Field
     {
         private uint Chance;
-        private ICommand undocommand;
-        public HardField(uint w, uint l, uint chanceOfRandomCancel, ICommand undocomm) :base(w, l)
+        public HardField(uint w, uint l, uint chanceOfRandomCancel) :base(w, l)
         {
             Name = "bckwrd";
             Tags[w-1, l-1] = new Tag();
             Chance = chanceOfRandomCancel;
-            base.MoveTag(new FromToCoords(w - 1, l - 1, w - 1, l - 2));
-            undocommand = undocomm;
+            base.MoveTag(new FromToCoords(w - 1, l - 1, w - 1, l - 2));            
         }
 
-        //overloaded , can cancel users move
-        public override void MoveTag(FromToCoords fromTo)
+
+        public override void MoveTag(FromToCoords fromTo)//overloaded func, can cancel users move
         {
             Random rnd = new Random();
             int randomInt = rnd.Next(1, 101);
@@ -30,7 +27,8 @@ namespace TagsApp.Fabric_Method
             }
             else
             {         
-                undocommand.Execute(); 
+                Core.UndoCommand.Execute();
+ 
                 MakeRandomMove();
             }
         }
