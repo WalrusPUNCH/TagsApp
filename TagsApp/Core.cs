@@ -22,7 +22,6 @@ namespace TagsApp
         private HistoryCareTaker history;
         private Field field;
         private Field winField;
-        private FieldType FieldType;
         private static Core core;
 
         private Core()
@@ -45,16 +44,18 @@ namespace TagsApp
 
             return (FieldType)(user.ChooseFieldType(ans));
         }
+
         public void Init()
         {
             uint[] size = null;
+            FieldType ft;
             while (true)
             {
                 PrintOut.PrintMenu();             
                 try
                 {
                     string initAns = Console.ReadLine();
-                    returnFieldType(initAns);
+                    ft = returnFieldType(initAns);
                     break;
                 }
                 catch (InvalidInputException e)
@@ -80,7 +81,7 @@ namespace TagsApp
                 }
             }
             
-            Switch(FieldType, size[0], size[1]);
+            Switch(ft, size[0], size[1]);
             Console.Clear();
         }
 

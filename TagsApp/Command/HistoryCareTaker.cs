@@ -8,20 +8,21 @@ namespace TagsApp.Meemento
     public class HistoryCareTaker
     {
         private Stack<IMemento> history;
-      //  private Stack<ICommand> commandHistory;
+        //private Stack<IMemento> commandHistory;
         public Stack<IMemento> History { get => history; set => history = value; }
+        //public Stack<IMemento> CommandHistory { get => commandHistory; set => commandHistory = value; }
 
         public HistoryCareTaker()
         {
             history = new Stack<IMemento>();
-            //commandHistory = new Stack<ICommand>();
+            //commandHistory = new Stack<IMemento>();
         }
 
 
         public void Save(IMemento memento/*, ICommand command*/)
         {
             history.Push(memento);
-           // commandHistory.Push(command);
+            //commandHistory.Push(command);
         }
         
         public void Undo()

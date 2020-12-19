@@ -34,7 +34,7 @@ namespace TagsApp.Fabric_Method
                 MakeRandomMove();
             }
         }
-        public void MakeRandomMove()
+        private void MakeRandomMove()
         {
             uint x = 0;
             uint y = 0;
@@ -50,40 +50,12 @@ namespace TagsApp.Fabric_Method
                 }
             }
             
-            int counter = 0;
-            while (counter < 2)
+            int rndmovecounter = 0;
+            while (rndmovecounter < 2)
             {
-                counter++;
-                FromToCoords fromTo = new FromToCoords(x, y, x, y);
-                Random r = new Random();
-                int xory = r.Next(0, 2);
-                int plusorminus = r.Next(0, 2);
-                if (xory == 0)
-                {
-                    if (plusorminus == 0)
-                    {
-                        fromTo.toX++;
-                        x++;
-                    }
-                    else
-                    {
-                        x--;
-                        fromTo.toX--;
-                    }
-                }
-                else
-                {
-                    if (plusorminus == 0)
-                    {
-                        y++;
-                        fromTo.toY++;
-                    }
-                    else
-                    {
-                        y--;
-                        fromTo.toY--;
-                    }
-                }
+                rndmovecounter++;
+
+                var fromTo = ii(x, y);
 
                 try
                 {
@@ -91,9 +63,43 @@ namespace TagsApp.Fabric_Method
                 }
                 catch
                 {
-                    counter--;
+                    rndmovecounter--;
                 }
             }
+        }
+        private FromToCoords ii(uint x, uint y)
+        {
+            FromToCoords fromTo = new FromToCoords(x, y, x, y);
+            Random r = new Random();
+            int x_Or_y = r.Next(0, 2);
+            int plus_or_minus = r.Next(0, 2);
+            if (x_Or_y == 0)
+            {
+                if (plus_or_minus == 0)
+                {
+                    fromTo.toX++;
+                    x++;
+                }
+                else
+                {
+                    x--;
+                    fromTo.toX--;
+                }
+            }
+            else
+            {
+                if (plus_or_minus == 0)
+                {
+                    y++;
+                    fromTo.toY++;
+                }
+                else
+                {
+                    y--;
+                    fromTo.toY--;
+                }
+            }
+            return fromTo;
         }
     }
 }
