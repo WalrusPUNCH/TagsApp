@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TagsApp;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsAppTests
 {
@@ -15,6 +16,8 @@ namespace TagsAppTests
         [Test]
         public void Restore_AcceptW_L_Tags_ReturnFieldWithSameParameters()
         {
+            throw new NotImplementedException();
+            /*
             //arrange
             f = new Field(3, 3);
             f.Width = 3;
@@ -27,6 +30,7 @@ namespace TagsAppTests
             stub.Restore();
             //assert
             Assert.AreEqual(f.Tags[0,1].Name, stub.Tags[0,1].Name);
+            */
         }
     }
 }
