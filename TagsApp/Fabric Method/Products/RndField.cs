@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace TagsApp.Fabric_Method
+namespace TagsApp.Fabric_Method.Products
 {
     public class RndField : Field
     {
@@ -11,22 +9,18 @@ namespace TagsApp.Fabric_Method
             Random rand = new Random();
             for (int i = 0; i < numOfSwaps; i++)
             {
-                int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
-                while (true)
+                int x1, x2, y1, y2;
+                do
                 {
-                    if (x1 == x2 && y1 == y2)
-                    {
-                        x1 = rand.Next(0, WidthInt);
-                        x2 = rand.Next(0, WidthInt);
-                        y1 = rand.Next(0, LengthInt);
-                        y2 = rand.Next(0, LengthInt);
-                        continue;
-                    }
-                    break;
-                }
-                var temp = Tags[x1, y1];
-                Tags[x1, y1] = Tags[x2, y2];
-                Tags[x2, y2] = temp;
+                    x1 = rand.Next(0, (int)Width);
+                    x2 = rand.Next(0, (int)Width);
+                    y1 = rand.Next(0, (int)Length);
+                    y2 = rand.Next(0, (int)Length);
+                    
+                } while (x1 == x2 && y1 == y2);
+                FromToCoords fromToCoords = new FromToCoords((uint)x1, (uint)y1, (uint)x2, (uint)y2);
+
+                SwapTags(fromToCoords);
             }
         }
     }

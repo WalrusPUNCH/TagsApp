@@ -1,37 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TagsApp.Command;
 
-namespace TagsApp.Meemento
+namespace TagsApp.Command
 {
     public class HistoryCareTaker
     {
-        private Stack<IMemento> history;
-      //  private Stack<ICommand> commandHistory;
-        public Stack<IMemento> History { get => history; set => history = value; }
+        private readonly Stack<IMemento> _history;
 
         public HistoryCareTaker()
         {
-            history = new Stack<IMemento>();
-            //commandHistory = new Stack<ICommand>();
+            _history = new Stack<IMemento>();
         }
-
-
-        public void Save(IMemento memento/*, ICommand command*/)
+        public void Save(IMemento memento)
         {
-            history.Push(memento);
-           // commandHistory.Push(command);
+            _history.Push(memento);
         }
-        
         public void Undo()
         {
-            if (history.Count == 0)
+            if (_history.Count == 0)
             {
                 throw new InvalidOperationException("no move to cancel");
             }
-            history.Pop().Restore();
-           // commandHistory.Pop();
+            _history.Pop().Restore();
         }
     }
 }

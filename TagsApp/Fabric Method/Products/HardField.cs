@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Drawing;
 
-namespace TagsApp.Fabric_Method
+namespace TagsApp.Fabric_Method.Products
 {
     public class HardField : Field
     {
-        private uint Chance;
-        public HardField(uint w, uint l, uint chanceOfRandomCancel) :base(w, l)
+        private readonly uint _chance;
+        public HardField(uint w, uint l, uint chanceOfRandomCancel) :base(w, l, "bckwrd")
         {
-            Name = "bckwrd";
+           // Name = "bckwrd";
             Tags[w-1, l-1] = new Tag();
-            Chance = chanceOfRandomCancel;
+            _chance = chanceOfRandomCancel;
             base.MoveTag(new FromToCoords(w - 1, l - 1, w - 1, l - 2));            
         }
 
@@ -21,7 +20,7 @@ namespace TagsApp.Fabric_Method
             Random rnd = new Random();
             int randomInt = rnd.Next(1, 101);
             
-            if (randomInt>Chance)
+            if (randomInt>_chance)
             {
                 base.MoveTag(fromTo);
             }
@@ -32,10 +31,45 @@ namespace TagsApp.Fabric_Method
                 MakeRandomMove();
             }
         }
-        public void MakeRandomMove()
+
+        private void MakeRandomMove()
         {
-            uint x = 0;
-            uint y = 0;
+            FindEmptyTag(out uint x, out uint y);
+            
+            int counter = 0;
+            while (counter < 2)
+            {
+                counter++;
+                FromToCoords fromTo = new FromToCoords(x, y, x, y);
+                Random r = new Random();
+                int xory = r.Next(0, 2);
+                uint positionChange = (uint)(r.Next(0,2) * 2 - 1);
+                if (xory == 0)
+                {
+                    fromTo.ToX += positionChange;
+                    x += positionChange;
+                }
+                else
+                {
+                    fromTo.ToY += positionChange;
+                    y += positionChange;
+                }
+
+                try
+                {
+                    base.MoveTag(fromTo);
+                }
+                catch (InvalidOperationException exception)
+                {
+                    counter--;
+                }
+            }
+        }
+
+        private void FindEmptyTag(out uint x, out uint y)
+        {
+            x = 0;
+            y = 0;
             for(uint i = 0; i<Width; i++)
             {
                 for(uint j = 0; j< Length; j++)
@@ -48,50 +82,6 @@ namespace TagsApp.Fabric_Method
                 }
             }
             
-            int counter = 0;
-            while (counter < 2)
-            {
-                counter++;
-                FromToCoords fromTo = new FromToCoords(x, y, x, y);
-                Random r = new Random();
-                int xory = r.Next(0, 2);
-                int plusorminus = r.Next(0, 2);
-                if (xory == 0)
-                {
-                    if (plusorminus == 0)
-                    {
-                        fromTo.toX++;
-                        x++;
-                    }
-                    else
-                    {
-                        x--;
-                        fromTo.toX--;
-                    }
-                }
-                else
-                {
-                    if (plusorminus == 0)
-                    {
-                        y++;
-                        fromTo.toY++;
-                    }
-                    else
-                    {
-                        y--;
-                        fromTo.toY--;
-                    }
-                }
-
-                try
-                {
-                    base.MoveTag(fromTo);
-                }
-                catch
-                {
-                    counter--;
-                }
-            }
         }
     }
 }

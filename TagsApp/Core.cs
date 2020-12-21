@@ -3,22 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using TagsApp.Command;
 using TagsApp.Fabric_Method;
-using TagsApp.Meemento;
+using TagsApp.Fabric_Method.Creators;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsApp
 {
-    public enum FieldType
-    {
-        randomField,
-        backwardsField,
-        hardField
-    }
-
     public static class Core
     {
         private static FieldCreator fieldCreator;
-        private static ICommand undoCommand;
-        public static ICommand UndoCommand { get { return undoCommand; } }
+        public static ICommand UndoCommand { get; private set; }
         private static UserInputController user;
         private static HistoryCareTaker history;
         private static Field field;
@@ -46,7 +39,6 @@ namespace TagsApp
                     string initAns = Console.ReadLine();
 
                     user = new UserInputController();
-
                     FieldType = (FieldType)(user.ChooseFieldType(initAns));
                     break;
                 }
@@ -75,7 +67,7 @@ namespace TagsApp
             
             Switch(FieldType, size[0], size[1]);
             history = new HistoryCareTaker();
-            undoCommand = new UndoCommand(history);
+            UndoCommand = new UndoCommand(history);
             Console.Clear();
         }
 
@@ -85,7 +77,7 @@ namespace TagsApp
 
             switch (ft)
             {
-                case FieldType.randomField:
+                case FieldType.RandomField:
                     PrintOut.GetNumOfSwapsText();
                     string numOfSwaps = Console.ReadLine();
 
@@ -93,12 +85,12 @@ namespace TagsApp
                     field = fieldCreator.Generate(width, length);
                     break;
 
-                case FieldType.backwardsField:
+                case FieldType.BackwardsField:
                     fieldCreator = new BckwrdFieldCreator();
                     field = fieldCreator.Generate(width, length);
                     break;
 
-                case FieldType.hardField:
+                case FieldType.HardField:
                     PrintOut.GetChanceOfRndcancelText();
                     string chanceOfRandomCancel = Console.ReadLine();
                     fieldCreator = new HardFieldCreator(user.GetChanceOfRndCancel(chanceOfRandomCancel));
@@ -108,6 +100,7 @@ namespace TagsApp
                 default:
                     field = FieldCreator.GenerateWinField(width, length);
                     break;
+                
             }
         }
         public static void MainLoop()
@@ -123,7 +116,7 @@ namespace TagsApp
                     string ans = Console.ReadLine();
                     if (user.CancelMove(ans.ToLower()))
                     {
-                        undoCommand.Execute();
+                        UndoCommand.Execute();
                         Console.Clear();
                         continue;
                     }
@@ -140,7 +133,7 @@ namespace TagsApp
                 catch (InvalidOperationException e)
                 {
                     CatchActions(e);
-                    undoCommand.Execute();//if move failed, but memento already created
+                    UndoCommand.Execute();//if move failed, but memento already created
                 }
                 catch (Exception e)
                 {

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TagsApp;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsAppTests
 {

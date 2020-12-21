@@ -1,26 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using TagsApp.Fabric_Method.Products;
 
-namespace TagsApp
+namespace TagsApp.Fabric_Method.Creators
 {
     public abstract class FieldCreator
     {
         private string name;
-        public string Name { get { return name; } set { name = value; } }
+
         public FieldCreator(string _name)
         {
             if (string.IsNullOrEmpty(_name))
             {
                 throw new ArgumentNullException(nameof(_name));
             }
-            Name = _name;
+            name = _name;
         }
         public abstract Field Generate(uint w, uint l);
         public static Field GenerateWinField(uint w, uint l)
         {
-            var field = new Field(w, l);
-            field.Tags[w-1, l-1] = new Tag();
+            var field = new Field(w, l)
+            {
+                Tags = {[w - 1, l - 1] = new Tag()}
+            };
             return field;
         }
     }

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TagsApp;
+using TagsApp.Fabric_Method.Creators;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsAppTests
 {

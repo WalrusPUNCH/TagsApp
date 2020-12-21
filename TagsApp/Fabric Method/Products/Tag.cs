@@ -1,22 +1,13 @@
-﻿using System;
-
-namespace TagsApp
+﻿namespace TagsApp.Fabric_Method.Products
 {
     public class Tag
     {
-        private string name;
-        public string Name { set { name = value; } get { return name; } }
-        public Tag(string _name)
-        {
-           Name = _name  ;
-        }
+        public const string Empty = "X";
+        public string Name { set; get; }
 
-        private const string emptyTag = "X";
-        public static string Empty { get { return emptyTag; } }
-
-        public Tag()
+        public Tag(string name = Empty)
         {
-            Name = emptyTag;
+           Name = name;
         }
     }
 }

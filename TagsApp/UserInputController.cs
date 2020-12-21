@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsApp
 {
@@ -79,12 +80,6 @@ namespace TagsApp
 
             int counter = 0;
 
-            //string checkForCorrectLenth = ans.Trim();
-            //if (checkForCorrectLenth.Length > 4)
-            //{
-            //    throw new InvalidInputException("Please, type in coords as in example. " +
-            //        "\nFor other options, see menu.");
-            //}
             char[] mas = ans.ToUpper().ToCharArray();    
 
             foreach (char h in mas)
@@ -112,26 +107,12 @@ namespace TagsApp
 
         public bool CancelMove(string ans)
         {
-            if (ans == "cancel")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ans == "cancel";
         }
 
         public bool GiveUp(string ans)
         {
-            if (ans == "give up")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ans == "give up";
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsApp
 {
@@ -25,7 +26,7 @@ namespace TagsApp
 
             for (int i = 0; i < f.Width; i++)
             {
-                Console.Write("|{0, 3}|", Utils.indexToChar(i));
+                Console.Write("|{0, 3}|", Utils.IndexToChar(i));
                 for (int j = 0; j < f.Length; j++)
                 {
                     if (f.Tags[i, j].Name == Tag.Empty)

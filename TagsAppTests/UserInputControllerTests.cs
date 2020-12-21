@@ -2,6 +2,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using TagsApp;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsAppTests
 {

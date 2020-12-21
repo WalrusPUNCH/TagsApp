@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Linq;
 
 namespace TagsApp
 {
     public static class Utils
     {
-        public static string indexToChar(int n)
+        public static string IndexToChar(int n)
         {
             string res = "";
-            int next = 1, val;
+            int next = 1;
             while (next != 0)
             {
                 next = n / 10;
-                val = n - next * 10;
+                var val = n - next * 10;
                 switch (val)
                 {
                     case 0:
@@ -94,14 +95,9 @@ namespace TagsApp
             return res;
         }
 
-        public static bool IsAllAlphabetic(string value)
+        private static bool IsAllAlphabetic(string value)
         {
-            foreach (char c in value)
-            {
-                if (!char.IsLetter(c))
-                    return false;
-            }
-            return true;
+            return value.All(char.IsLetter);
         }
 
         public static bool IsDigit(string res)

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TagsApp.Fabric_Method
+﻿namespace TagsApp.Fabric_Method.Products
 {
     public class BckwrdField: Field
     {
         public BckwrdField(uint w, uint l) 
-            :base("bckwrd", w, l)
+            :base(w, l,"bckwrd")
         {
             uint count = Width * Length;
             for(int i=0; i< Width; i++)

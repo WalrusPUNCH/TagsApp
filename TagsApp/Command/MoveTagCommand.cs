@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TagsApp.Meemento;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsApp.Command
 {
@@ -23,7 +23,5 @@ namespace TagsApp.Command
             history.Save(field.CreateMemento());
             field.MoveTag(fromTo);
         }
-
-
     }
 }

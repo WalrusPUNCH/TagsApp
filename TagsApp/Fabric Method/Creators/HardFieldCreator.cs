@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TagsApp.Fabric_Method.Creators;
+using TagsApp.Fabric_Method.Products;
 
 namespace TagsApp.Fabric_Method
 {
