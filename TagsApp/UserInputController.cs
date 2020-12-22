@@ -7,6 +7,9 @@ namespace TagsApp
 {
     public  class UserInputController
     {
+        public const string CancelCommand = "cancel";
+        public const string GiveUpCommand = "give up";
+        
         public uint ChooseFieldType(string fieldType)
         {
             if (!Utils.IsDigit(fieldType))
@@ -67,10 +70,7 @@ namespace TagsApp
             {
                 throw new InvalidInputException("Chance more than 100%?");
             }
-            if (Convert.ToUInt32(chanceOfRndCancel)<0)
-            {
-                throw new InvalidInputException("Chance less than 0%?");
-            }
+
             return Convert.ToUInt32(chanceOfRndCancel);
         }
 
@@ -103,16 +103,6 @@ namespace TagsApp
 
             }
             return new FromToCoords(coords[0], coords[1]-1, coords[2], coords[3]-1);
-        }
-
-        public bool CancelMove(string ans)
-        {
-            return ans == "cancel";
-        }
-
-        public bool GiveUp(string ans)
-        {
-            return ans == "give up";
         }
     }
 

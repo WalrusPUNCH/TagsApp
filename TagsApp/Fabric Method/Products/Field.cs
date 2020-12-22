@@ -11,16 +11,6 @@ namespace TagsApp.Fabric_Method.Products
         public uint Width { set; get; }
         public Tag[,] Tags { set; get; }
 
-        //public int LengthInt { get { return Convert.ToInt32(Length); } }
-       // public int WidthInt { get { return Convert.ToInt32(Width); } }
-
-        /*protected Field(string name, uint w, uint l)
-        {
-            this.Name = name;
-            this.Width = w;
-            this.Length = l;
-            this.Tags = new Tag[w,l];
-        }*/
         public Field(uint w, uint l, string name = "Standart")
         {
             this._name = name;
@@ -73,6 +63,23 @@ namespace TagsApp.Fabric_Method.Products
             if (Tags[fromTo.FromX, fromTo.FromY].Name != Tag.Empty && Tags[fromTo.ToX, fromTo.ToY].Name != Tag.Empty)
             {
                 throw new InvalidOperationException("No empty tag to move");
+            }
+        }
+        
+        private void FindEmptyTag(out uint x, out uint y)
+        {
+            x = 0;
+            y = 0;
+            for(uint i = 0; i < Width; i++)
+            {
+                for(uint j = 0; j < Length; j++)
+                {
+                    if(Tags[i, j].Name ==  Tag.Empty)
+                    {
+                        x = i;
+                        y = j;
+                    }
+                }
             }
         }
         

@@ -10,43 +10,30 @@ namespace TagsApp
 {
     public static class Core
     {
-        private static FieldCreator fieldCreator;
+        private static FieldCreator _fieldCreator;
         public static ICommand UndoCommand { get; private set; }
         private static UserInputController user;
         private static HistoryCareTaker history;
         private static Field field;
         private static Field winField;
         private static FieldType FieldType;
-        //private Core core;
-
-        // private Core()
-
-        //private FieldType returnFieldType(string ans)
-        //{
-        //    user = new UserInputController();
-
-        //    return (FieldType)(user.ChooseFieldType(ans));
-        //}
+        
         public static void Init()
         {
-            uint[] size = null;
-            while (true)
-            {
-                PrintOut.PrintMenu();
-             
-                try
-                {
-                    string initAns = Console.ReadLine();
+            history = new HistoryCareTaker();
+            UndoCommand = new UndoCommand(history);
+            user = new UserInputController();
+            
+            ChooseFieldType();
+            uint[] size = ChooseFieldSize();
+            
+            CreateField(FieldType, size[0], size[1]);
+            Console.Clear();
+        }
 
-                    user = new UserInputController();
-                    FieldType = (FieldType)(user.ChooseFieldType(initAns));
-                    break;
-                }
-                catch (InvalidInputException e)
-                {
-                    CatchActions(e);
-                }
-            }
+        private static uint[] ChooseFieldSize()
+        {
+            uint[] size = null;
 
             while (size == null)
             {
@@ -64,14 +51,28 @@ namespace TagsApp
                     CatchActions(e);
                 }
             }
-            
-            Switch(FieldType, size[0], size[1]);
-            history = new HistoryCareTaker();
-            UndoCommand = new UndoCommand(history);
-            Console.Clear();
-        }
 
-        private static void Switch(FieldType ft, uint width, uint length)
+            return size;
+        }
+        private static void ChooseFieldType()
+        {
+            while (true)
+            {
+                PrintOut.PrintMenu();
+                try
+                {
+                    string initAns = Console.ReadLine();
+
+                    FieldType = (FieldType)user.ChooseFieldType(initAns);
+                    break;
+                }
+                catch (InvalidInputException e)
+                {
+                    CatchActions(e);
+                }
+            }
+        }
+        private static void CreateField(FieldType ft, uint width, uint length)
         {
             winField = FieldCreator.GenerateWinField(width, length);
 
@@ -81,20 +82,20 @@ namespace TagsApp
                     PrintOut.GetNumOfSwapsText();
                     string numOfSwaps = Console.ReadLine();
 
-                    fieldCreator = new RndFieldCreator(user.GetNumOfSwaps(numOfSwaps));
-                    field = fieldCreator.Generate(width, length);
+                    _fieldCreator = new RndFieldCreator(user.GetNumOfSwaps(numOfSwaps));
+                    field = _fieldCreator.Generate(width, length);
                     break;
 
                 case FieldType.BackwardsField:
-                    fieldCreator = new BckwrdFieldCreator();
-                    field = fieldCreator.Generate(width, length);
+                    _fieldCreator = new BckwrdFieldCreator();
+                    field = _fieldCreator.Generate(width, length);
                     break;
 
                 case FieldType.HardField:
                     PrintOut.GetChanceOfRndcancelText();
                     string chanceOfRandomCancel = Console.ReadLine();
-                    fieldCreator = new HardFieldCreator(user.GetChanceOfRndCancel(chanceOfRandomCancel));
-                    field = fieldCreator.Generate(width, length);
+                    _fieldCreator = new HardFieldCreator(user.GetChanceOfRndCancel(chanceOfRandomCancel));
+                    field = _fieldCreator.Generate(width, length);
                     break;
 
                 default:
@@ -113,14 +114,23 @@ namespace TagsApp
                     PrintOut.ShowRules();
                     Console.WriteLine();
 
-                    string ans = Console.ReadLine();
-                    if (user.CancelMove(ans.ToLower()))
+                    string ans = Console.ReadLine()?.ToLower();
+                    
+                    if (ans.Equals(UserInputController.CancelCommand))
                     {
-                        UndoCommand.Execute();
-                        Console.Clear();
-                        continue;
+                        try
+                        {
+                            UndoCommand.Execute();
+                            Console.Clear();
+                            continue;
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            CatchActions(e);
+                        }
+                        
                     }
-                    if (user.GiveUp(ans.ToLower()))
+                    else if (ans.Equals(UserInputController.GiveUpCommand))
                     {
                         PrintOut.Restart();
                         break;

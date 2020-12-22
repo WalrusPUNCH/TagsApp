@@ -102,11 +102,7 @@ namespace TagsApp
 
         public static bool IsDigit(string res)
         {
-            if (IsAllAlphabetic(res) || res == "\n")
-            {
-                throw new InvalidInputException("wtf have you typed? Digits only!");
-            }
-            return true;
+            return res.All(char.IsDigit);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace TagsApp.Command
 
         public void Execute()
         {           
-            history.Save(field.CreateMemento());
             field.MoveTag(fromTo);
+            history.Save(field.CreateMemento());
         }
     }
 }
