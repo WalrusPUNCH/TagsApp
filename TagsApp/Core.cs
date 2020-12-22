@@ -122,13 +122,13 @@ namespace TagsApp
                         {
                             UndoCommand.Execute();
                             Console.Clear();
-                            continue;
                         }
                         catch (InvalidOperationException e)
                         {
                             CatchActions(e);
                         }
                         
+                        continue;
                     }
                     else if (ans.Equals(UserInputController.GiveUpCommand))
                     {

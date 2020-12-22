@@ -19,9 +19,9 @@ namespace TagsApp.Command
         }
 
         public void Execute()
-        {           
-            field.MoveTag(fromTo);
+        {        
             history.Save(field.CreateMemento());
+            field.MoveTag(fromTo);
         }
     }
 }

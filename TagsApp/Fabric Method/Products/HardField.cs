@@ -45,7 +45,7 @@ namespace TagsApp.Fabric_Method.Products
                     base.MoveTag(randomCoordinates);
                     moveWasMade = true;
                 }
-                catch (IndexOutOfRangeException exception)  
+                catch
                 {
                 }
                 
